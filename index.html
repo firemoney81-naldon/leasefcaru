@@ -1,23 +1,436 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-    <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
-    </nav>
+
+
+    <!-- JSON-LD Structured Data for FAQPage -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "K5 리스와 K5 장기렌트의 차이점은 무엇인가요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "가장 큰 차이점은 '차량 번호판'과 '보험'입니다. 리스는 일반 차량과 동일한 번호판(하, 허, 호 제외)을 사용하며, 보험 경력이 유지됩니다. 장기렌트는 '하, 허, 호' 번호판을 사용하며, 보험은 렌탈사 명의로 가입되어 개인 보험 경력이 단절될 수 있습니다. 또한 리스는 금융 상품(대출)로 분류되지만, 렌트는 순수 임대 상품으로 분류됩니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "K5 리스 견적을 받을 때 초기 비용이 발생하나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "초기 비용은 보증금과 선납금으로 나뉩니다. 보증금은 차량 반납 시 돌려받는 담보금이며, 선납금은 미리 내는 월 리스료입니다. 초기 비용 없이 K5 리스 상품을 이용할 수도 있지만, 이 경우 월 리스료가 높아지거나 이자율이 불리하게 적용될 수 있으므로, 보증금을 일정 비율 납부하는 것이 더 유리할 수 있습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "K5 리스 계약 만기 시 선택할 수 있는 옵션에는 어떤 것이 있나요?",
+          "@id": "#lease-options-answer",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "K5 리스 만기 시에는 크게 세 가지 선택지가 있습니다. 첫째, 차량을 반납하고 계약을 종료합니다. 둘째, 잔존가치를 납부하고 차량을 인수하여 본인 소유로 만듭니다. 셋째, 기존 차량을 반납하고 새로운 차량으로 재리스 계약을 진행합니다. 이중 어떤 옵션을 선택할지는 계약 시점의 잔존가치와 시장 상황에 따라 결정하는 것이 좋습니다."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        /* CSS Reset and Variables */
+        :root {
+            --primary-color: #004C91; /* Kia corporate blue/dark blue */
+            --secondary-color: #2F6FD5; /* Lighter blue accent */
+            --accent-color: #FF5722;   /* Orange/Red highlight for CTA */
+            --text-color: #333333;
+            --bg-light: #F4F6F9;       /* Light gray background */
+            --bg-white: #FFFFFF;
+            --section-header: #003366; /* Deep blue for titles */
+            --btn-cta: #FF5722;       /* CTA button color */
+            --btn-hover: #E64A19;
+            --shadow-light: rgba(0, 0, 0, 0.08);
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        
+        body { font-family: 'Noto Sans KR', sans-serif; margin: 0; padding: 0; background-color: var(--bg-light); color: var(--text-color); line-height: 1.7; font-size: 16px; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; box-sizing: border-box; }
+        
+        /* Typography */
+        h1, h2, h3, h4 { margin-top: 0; font-weight: 700; line-height: 1.4; }
+        h1 { font-size: 2.8em; color: var(--section-header); margin-bottom: 20px; }
+        h2 { font-size: 2.2em; color: var(--section-header); text-align: center; margin-bottom: 40px; }
+        h3 { font-size: 1.6em; color: var(--primary-color); border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 35px; margin-bottom: 20px; font-weight: 600; }
+        p { margin-bottom: 15px; font-weight: 400; color: #555; }
+        
+        /* Layout Structure */
+        header { background-color: var(--bg-white); padding: 20px 0; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px var(--shadow-light); }
+        header .logo { font-size: 1.8em; color: var(--primary-color); font-weight: 900; text-decoration: none; display: block; text-align: center; }
+
+        /* Hero Section - K5 Visual Focus */
+        .hero-section { background: linear-gradient(rgba(0, 76, 145, 0.8), rgba(0, 76, 145, 0.6)), url('https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') center/cover no-repeat; color: #fff; text-align: center; padding: 100px 20px; position: relative; }
+        .hero-content { background-color: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 12px; max-width: 700px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); text-align: left; color: var(--text-color); }
+        .hero-content h1 { font-size: 2.5em; color: var(--section-header); text-align: center; }
+        .hero-content p { font-size: 1.1em; text-align: center; }
+
+        /* CTA Form Styles */
+        .cta-form { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 25px; }
+        .form-group { text-align: left; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--primary-color); font-size: 0.95em; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 1em; }
+        .btn-submit { background-color: var(--btn-cta); color: #fff; padding: 15px 30px; font-size: 1.1em; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.2); width: 100%; margin-top: 10px; }
+        .btn-submit:hover { background-color: var(--btn-hover); transform: translateY(-2px); }
+
+        /* Main Content Section */
+        .content-section { background-color: var(--bg-white); padding: 60px 0; margin-top: 30px; border-radius: 12px; box-shadow: 0 4px 15px var(--shadow-light); }
+        .content-section:last-of-type { margin-bottom: 30px; }
+
+        /* Feature Grid/Card Layout */
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 30px; }
+        .feature-item { background-color: var(--bg-light); padding: 25px; border-radius: 8px; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid #eee; }
+        .feature-item:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        .feature-item img { width: 60px; height: 60px; margin-bottom: 15px; }
+        .feature-item h4 { color: var(--primary-color); font-size: 1.3em; margin-bottom: 10px; }
+
+        /* Comparison Table/Infographics */
+        .comparison-table { width: 100%; border-collapse: collapse; margin-top: 30px; font-size: 0.95em; }
+        .comparison-table th, .comparison-table td { border: 1px solid #e0e0e0; padding: 15px; text-align: center; }
+        .comparison-table th { background-color: var(--primary-color); color: #fff; font-weight: 500; }
+        .comparison-table tr:nth-child(even) { background-color: #f9f9f9; }
+        .comparison-table tr:hover { background-color: #f1f1f1; }
+
+        /* Callout Box for Highlights */
+        .callout-box { background-color: #EBF4F9; padding: 25px; border-left: 5px solid var(--primary-color); border-radius: 8px; margin: 30px 0; font-style: italic; color: #444; }
+
+        /* FAQ Section */
+        .faq-list { list-style: none; padding: 0; margin: 0; }
+        .faq-item { border-bottom: 1px solid #ddd; padding: 20px 0; cursor: pointer; }
+        .faq-item h3 { margin: 0; font-size: 1.15em; color: var(--text-color); font-weight: 500; display: flex; justify-content: space-between; align-items: center; }
+        .faq-item h3::after { content: '+'; font-size: 1.5em; color: var(--accent-color); transition: transform 0.3s; }
+        .faq-item.active h3::after { content: '-'; transform: rotate(180deg); }
+        .faq-item p { display: none; padding-top: 15px; color: #666; font-size: 0.95em; line-height: 1.8; margin-bottom: 0; }
+        .faq-item.active p { display: block; }
+
+        /* Related Keywords */
+        .keyword-list { list-style: none; padding: 0; text-align: center; margin-top: 30px; }
+        .keyword-list li { display: inline-block; background-color: var(--secondary-color); color: #fff; padding: 8px 18px; margin: 5px; border-radius: 20px; font-weight: 500; font-size: 0.9em; transition: background-color 0.3s; }
+        .keyword-list li:hover { background-color: var(--primary-color); }
+
+        /* Footer */
+        footer { background-color: #333; color: #fff; text-align: center; padding: 40px 20px; font-size: 0.85em; }
+        footer a { color: #fff; text-decoration: none; margin: 0 10px; opacity: 0.8; }
+        footer a:hover { text-decoration: underline; opacity: 1; }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            h2 { font-size: 1.8em; }
+            h3 { font-size: 1.4em; }
+            .hero-section { padding: 60px 20px; }
+            .hero-content { padding: 30px; }
+            .btn-submit { font-size: 1em; padding: 12px 25px; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .content-section { padding: 40px 20px; }
+            .comparison-table th, .comparison-table td { font-size: 0.85em; padding: 12px; }
+            .keyword-list li { font-size: 0.8em; padding: 6px 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="/" class="logo">K5 리스 가격 비교센터</a>
+        </div>
+    </header>
+
     <main>
-      <h1>Home page</h1>
+        <!-- Hero Section: Value Proposition and Comparison Form -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>2026년형 K5 풀체인지? 최신 K5 리스 견적, 지금 바로 비교하세요!</h1>
+                    <p>복잡한 K5 리스 가격을 한 번에 비교하고, 개인에게 가장 적합한 견적을 찾아 드립니다. 2026년형 K5 모델 출시 정보부터 K5 리스의 장단점까지, 모든 정보를 제공합니다.</p>
+                    <div class="cta-form-box">
+                        <form action="#" method="post" class="cta-form">
+                            <div class="form-group">
+                                <label for="car-model">관심 모델 선택:</label>
+                                <select id="car-model" required>
+                                    <option value="">K5 모델 선택</option>
+                                    <option value="K5_2.0_가솔린">K5 2.0 가솔린</option>
+                                    <option value="K5_1.6_터보">K5 1.6 터보</option>
+                                    <option value="K5_하이브리드">K5 하이브리드</option>
+                                    <option value="K5_LPI">K5 LPI</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="lease-term">희망 리스 기간 (개월):</label>
+                                <select id="lease-term" required>
+                                    <option value="">기간 선택</option>
+                                    <option value="36">36개월</option>
+                                    <option value="48">48개월</option>
+                                    <option value="60">60개월</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">이름:</label>
+                                <input type="text" id="name" placeholder="이름을 입력하세요" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">연락처:</label>
+                                <input type="tel" id="phone" placeholder="휴대폰 번호를 입력하세요" required>
+                            </div>
+                            <button type="submit" class="btn-submit">실시간 K5 리스 최저가 견적 받기</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Section: Why Lease K5? -->
+        <section class="content-section">
+            <div class="container">
+                <h2>왜 K5 리스를 선택해야 할까요? 장점과 단점 심층 분석</h2>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <img src="https://images.pexels.com/photos/1036082/pexels-photo-1036082.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="절세 효과 아이콘">
+                        <h4>절세 효과 (사업자 리스)</h4>
+                        <p>K5 리스 비용은 월 납입금 전액을 사업자의 경비로 처리할 수 있어 소득세나 법인세 절감 효과가 큽니다. 개인 사업자나 법인에게 특히 유리한 K5 리스 혜택입니다.</p>
+                    </div>
+                    <div class="feature-item">
+                        <img src="https://images.pexels.com/photos/4386341/pexels-photo-4386341.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="초기 비용 절감 아이콘">
+                        <h4>초기 비용 절감</h4>
+                        <p>K5 구매 시 필요한 취득세, 등록세, 공채 등 초기 부담이 발생하지 않습니다. 보증금 없는 리스 상품을 선택하면 초기 비용 없이 K5를 운행할 수 있습니다. K5 리스 초기 비용을 최소화하여 유동성을 확보하세요.</p>
+                    </div>
+                    <div class="feature-item">
+                        <img src="https://images.pexels.com/photos/343468/pexels-photo-343468.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="신차 교체 용이성 아이콘">
+                        <h4>신차 교체 용이성</h4>
+                        <p>K5 리스는 계약 만료 시점마다 새로운 모델로 교체하기 쉽습니다. 특히 2026년형 K5 풀체인지 모델을 기다리는 분들에게는 일정 기간 동안 최신 K5를 이용하고 새 모델로 전환하기 유리합니다.</p>
+                    </div>
+                </div>
+
+                <h3>K5 리스 단점: 숨겨진 비용과 제약사항 확인</h3>
+                <p>K5 리스의 장점만 보고 계약을 진행하면 예상치 못한 손해를 볼 수 있습니다. K5 리스 단점을 명확히 인지하고, 개인의 운전 습관과 재정 상황에 맞춰 K5 리스 계약 여부를 결정해야 합니다.</p>
+                <ul>
+                    <li><strong>주행거리 제한:</strong> K5 리스 계약 시 연간 주행거리를 설정해야 합니다. 주행거리를 초과할 경우 킬로미터당 정해진 위약금을 납부해야 합니다. 장거리 운행이 잦다면 K5 리스보다는 장기렌트가 유리할 수 있습니다.</li>
+                    <li><strong>중도 해지 위약금:</strong> 계약 기간 내 K5 리스를 중도 해지할 경우, 잔여 리스료의 상당 부분을 위약금으로 지불해야 하므로 신중하게 결정해야 합니다.</li>
+                    <li><strong>차량 손상 및 관리 책임:</strong> 만기 시 K5 차량 반납 조건이 까다롭습니다. 경미한 손상도 수리해야 하므로 차량 관리에 신경 써야 합니다.</li>
+                </ul>
+                <div class="callout-box">
+                    <strong>TIP: K5 리스 싼곳을 찾으려면?</strong> 단순 월 납입금만 비교하지 마세요. K5 리스 견적에는 금리, 잔존가치, 제휴 할인, 프로모션 혜택, 초기 비용 조건 등 다양한 요소가 숨어 있습니다. 여러 업체의 견적을 상세히 비교하는 것이 K5 리스 싼곳을 찾는 비결입니다.
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Section: Detailed Comparison (Lease vs. Long-term Rental) -->
+        <section class="content-section">
+            <div class="container">
+                <h2>K5 리스 vs. K5 장기렌트: 내게 맞는 상품은?</h2>
+                <p>K5 구매 방식 중 K5 리스와 K5 장기렌트는 초기 비용이 적다는 공통점이 있습니다. 하지만 세부적인 조건과 혜택, 그리고 법적 성격이 다르므로 반드시 비교해야 합니다.</p>
+                <img src="https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="K5 리스 비교 이미지" style="width:100%; height: auto; border-radius: 8px; margin-bottom: 20px;">
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>비교 항목</th>
+                            <th>K5 리스</th>
+                            <th>K5 장기렌트</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>번호판</strong></td>
+                            <td>일반 승용 번호판 (개인 소유 차량과 동일)</td>
+                            <td>하, 허, 호 번호판</td>
+                        </tr>
+                        <tr>
+                            <td><strong>보험료/보험 경력</strong></td>
+                            <td>개인 명의로 가입, 보험 경력 유지 (개인 요율 적용)</td>
+                            <td>렌트사 명의로 가입, 보험 경력 단절 (사고 시 보험료 할증 없음)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>취등록세</strong></td>
+                            <td>별도 납부 (리스사 명의)</td>
+                            <td>면제 (렌트료에 포함)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>차량 관리</strong></td>
+                            <td>개인 책임 (자유로운 옵션 선택 가능)</td>
+                            <td>렌트사 제공 (정비 서비스 유무에 따라 선택 가능)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>계약 만기 시</strong></td>
+                            <td>인수, 반납, 재리스 가능</td>
+                            <td>인수, 반납, 재렌트 가능</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>K5 리스 견적을 결정하는 5가지 핵심 요소</h3>
+                <ol>
+                    <li><strong>차량가 (K5 모델 옵션):</strong> K5 리스 비용은 차량의 기본 가격에 따라 달라집니다. 어떤 옵션을 선택하느냐에 따라 K5 리스 가격이 크게 변동합니다.</li>
+                    <li><strong>잔존가치:</strong> 계약 만료 시점의 차량 가치를 의미하며, 잔존가치가 높을수록 월 납입금은 낮아집니다. K5 리스 견적 비교 시 핵심 변수입니다.</li>
+                    <li><strong>리스 기간:</strong> 일반적으로 리스 기간이 길수록 월 납입금은 낮아지지만, 총 이자 비용은 증가합니다. 36개월, 48개월, 60개월 중 선택 가능합니다.</li>
+                    <li><strong>보증금/선납금:</strong> 초기 비용 유무에 따라 월 납입금이 달라집니다. K5 리스 보증금을 많이 낼수록 월 비용 부담이 줄어듭니다.</li>
+                    <li><strong>금리 및 수수료:</strong> 리스사별로 적용되는 금리와 취급 수수료가 다릅니다. K5 리스 견적을 비교할 때 숨겨진 금리를 꼭 확인해야 합니다.</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Main Content Section: Market Trends and Future Information (2026 K5) -->
+        <section class="content-section">
+            <div class="container">
+                <h2>K5 시장 동향 및 2026년형 K5 풀체인지 정보</h2>
+                <p>K5는 20대부터 40대까지 다양한 연령층에서 인기를 얻는 중형 세단의 대표주자입니다. 특히 최근 K5 풀체인지 모델에 대한 관심이 높아지면서 K5 리스 견적 문의도 증가하고 있습니다. 2026년에는 새로운 K5 모델이 출시될 것으로 예상되면서, 기존 K5 모델의 재고 할인 프로모션도 활발합니다.</p>
+                <img src="https://images.pexels.com/photos/163013/pexels-photo-163013.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="K5 주행 이미지" style="width:100%; height: auto; border-radius: 8px; margin-bottom: 20px;">
+                
+                <h3>K5 리스 비용 절약 팁: 현명하게 가입하는 방법</h3>
+                <ul>
+                    <li><strong>비교견적 필수:</strong> K5 리스 업체를 한 곳만 알아보는 것은 금물입니다. 5개 이상의 K5 리스 견적을 비교하여 가장 저렴한 곳을 찾아야 합니다.</li>
+                    <li><strong>K5 프로모션 활용:</strong> 리스사마다 비수기 또는 연말에 K5 할인 프로모션을 진행합니다. K5 재고 차량이나 비인기 트림을 선택하면 K5 리스 비용을 크게 낮출 수 있습니다.</li>
+                    <li><strong>선납금 vs. 보증금:</strong> 여유 자금이 있다면 보증금을 걸어 월 납입금을 줄이는 것이 유리합니다. 선납금은 소멸성 비용이므로 신중하게 결정해야 합니다.</li>
+                    <li><strong>만기 시 인수 목적 여부:</strong> 처음부터 K5 인수를 염두에 둔다면, 잔존가치를 낮게 설정하는 것이 유리합니다. 만기 시 인수를 고려하지 않는다면 잔존가치를 높게 설정해 월 납입금을 낮추세요.</li>
+                </ul>
+                <div class="callout-box">
+                    <strong>K5 리스 가입 전 체크리스트:</strong> <br>1. 연간 주행거리 설정 (초과 시 위약금 확인) <br>2. 만기 시 인수/반납 조건 명확히 파악 <br>3. 사고 발생 시 처리 방법 및 면책금 확인
+                </div>
+
+                <h3>함께 많이 찾는 키워드</h3>
+                <p>많은 사용자들이 K5 리스 견적을 알아볼 때 함께 검색하는 키워드입니다. K5 리스 저렴한곳, K5 리스 싼곳을 찾으려면 아래 키워드 정보를 참고하세요.</p>
+                <ul class="keyword-list">
+                    <li>#K5장기렌트비용</li>
+                    <li>#K5리스가격비교</li>
+                    <li>#K5풀체인지2026</li>
+                    <li>#K5하이브리드리스견적</li>
+                    <li>#K5리스후기내돈내산</li>
+                    <li>#K5리스전문업체순위</li>
+                    <li>#K5프로모션할인</li>
+                    <li>#신차리스장단점차이점</li>
+                    <li>#K5디시인사이드후기</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Main Content Section: SEO Keyword Integration and Professional Analysis -->
+        <section class="content-section">
+            <div class="container">
+                <h2>K5 리스 견적의 A to Z: 숨겨진 비용 분석과 절감 전략</h2>
+                <p>K5 리스 견적을 비교할 때 단순히 월 납입금만으로 K5 리스 싼곳을 판단하면 안 됩니다. 리스는 금융 상품의 일종으로, 금리(이자율)와 리스사의 수수료, 그리고 미래 차량 가치인 잔존가치가 복합적으로 작용합니다. 특히 K5 풀체인지 시기나 재고 소진 시기에는 리스사별 프로모션이 다르게 적용되므로, K5 리스 견적을 꼼꼼히 비교해야 합니다. 2026년형 K5 풀체인지 모델이 출시되면 기존 K5 모델은 K5 리스 가격이 대폭 하락하는 경향이 있습니다. 이는 K5 리스 잔존가치 책정에도 영향을 미쳐 월 납입금에 변동을 줄 수 있습니다.</p>
+
+                <h3>K5 리스 vs. 구매: 총 비용 비교</h3>
+                <p>많은 분들이 K5 리스와 K5 현금 구매 또는 할부 구매 중 어떤 것이 더 유리한지 궁금해합니다. K5 리스는 초기 비용 부담이 적고, 월 납입금이 할부 이자보다 낮게 느껴질 수 있습니다. 하지만 계약 기간 동안 총 납입액은 K5 현금 구매보다 높을 수 있습니다. K5 장기렌트는 보험료와 자동차세가 포함되어 있어 총 비용 계산이 더 간편한 장점이 있습니다.</p>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>비교 항목</th>
+                            <th>K5 리스 (예상)</th>
+                            <th>K5 장기렌트 (예상)</th>
+                            <th>K5 할부 구매 (예상)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>초기 비용</strong></td>
+                            <td>보증금 (0~40%) 또는 선납금</td>
+                            <td>보증금 (0~40%) 또는 선납금</td>
+                            <td>취등록세, 공채 등 (약 7%)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>월 납입금 구성</strong></td>
+                            <td>차량 감가상각비 + 이자 + 리스 수수료</td>
+                            <td>차량 감가상각비 + 이자 + 보험료 + 세금</td>
+                            <td>원금 + 할부 이자</td>
+                        </tr>
+                        <tr>
+                            <td><strong>소유권</strong></td>
+                            <td>리스사 명의 (사용자)</td>
+                            <td>렌트사 명의 (사용자)</td>
+                            <td>개인 명의 (소유)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>보험료 부담</strong></td>
+                            <td>개인 보험 (운전 경력 유지)</td>
+                            <td>렌트사 보험 (운전 경력 단절)</td>
+                            <td>개인 보험 (운전 경력 유지)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>K5 리스 내돈내산 후기 분석: 고객 만족도와 단점</h3>
+                <p>K5 리스 후기들을 분석해 보면, 개인 사업자의 절세 효과와 초기 비용 절감에 대한 만족도가 높습니다. 특히 2026년형 K5 풀체인지를 염두에 두고 K5 리스 계약 기간을 짧게 잡은 고객들은 만족스러운 경험을 공유합니다. 그러나 K5 리스 단점으로 지적되는 부분은 과도한 주행거리 초과 위약금, 그리고 차량 반납 시 예상치 못한 감가상각 비용입니다. K5 리스를 저렴한곳에서 계약했다고 하더라도, 중도 해지 시 위약금 조항을 꼼꼼히 확인해야 합니다.</p>
+
+                <h3>K5 리스 최저가 견적을 위한 필수 고려 사항</h3>
+                <p>K5 리스 견적을 비교할 때, K5 풀체인지 시기와 K5 재고 프로모션을 고려하는 것이 현명합니다. K5 재고 차량은 K5 리스 가격이 저렴한 편이며, K5 하이브리드 모델은 정부 지원금 혜택을 받을 수 있는 경우도 있습니다. 또한, K5 리스 가입 시 딜러사별 사은품이나 현금지원 이벤트도 확인하여 K5 리스 총 비용을 절약할 수 있습니다.</p>
+
+                <h3>전문가 추천 K5 리스 싼곳 찾는 방법</h3>
+                <p>K5 리스 전문 업체들은 다양한 K5 리스 프로모션을 보유하고 있습니다. K5 리스 업체 비교 시, 신규 가입 혜택, 제휴 카드 할인, 선납금 유무에 따른 이자율 차이 등을 종합적으로 살펴봐야 합니다. K5 리스 싼곳을 찾으려면 여러 업체의 견적을 실시간으로 비교하고, 비공식 할인 혜택까지 포함하여 K5 리스 견적을 받아보는 것이 좋습니다.</p>
+                
+                <div class="callout-box">
+                    <strong>K5 리스 Q&A: 네이버/구글 검색 시 많이 묻는 질문</strong>
+                    <ul>
+                        <li>Q: K5 리스 장점 중 가장 큰 것은 무엇인가요? A: 초기 비용 부담이 적고, 신차로 교체하기 쉬운 점입니다.</li>
+                        <li>Q: K5 리스 디시 후기를 보면 어떤 내용이 많나요? A: K5 리스 비용 절약 팁이나 만기 시 인수에 대한 고민이 주를 이룹니다.</li>
+                        <li>Q: K5 리스 현금지원을 받을 수 있나요? A: 일부 K5 리스 업체에서는 조건에 따라 현금 지원 또는 상품권 증정 이벤트를 진행하기도 합니다.</li>
+                    </ul>
+                </div>
+
+                <h3>2026년형 K5 풀체인지와 리스 시장의 변화</h3>
+                <p>2026년형 K5 풀체인지 모델이 출시되면 기존 K5 리스 시장에도 변화가 예상됩니다. 신차 K5 풀체인지 모델은 초기 잔존가치가 높게 책정되어 K5 리스 월 납입금이 기존 모델보다 높을 수 있습니다. 반면, 기존 K5 모델은 K5 리스 비용이 저렴해지므로, K5 리스 싼곳을 찾는 소비자들에게 좋은 기회가 될 수 있습니다. K5 하이브리드 모델의 경우, 친환경차 혜택이 K5 리스 견적에 반영되는지 여부를 꼼꼼히 확인해야 합니다.</p>
+
+                <!-- Information Source Links -->
+                <h3>K5 리스 관련 신뢰성 있는 정보 출처</h3>
+                <p>K5 리스 계약 전에 다음 외부 사이트에서 관련 정보를 확인하는 것을 권장합니다.</p>
+                <ul>
+                    <li><a href="https://www.kia.com/kr/vehicles/k5/features.html" target="_blank" rel="noopener noreferrer">기아자동차 K5 공식 모델 정보</a></li>
+                    <li><a href="https://namu.wiki/w/%EA%B8%B0%EC%95%84%20K5" target="_blank" rel="noopener noreferrer">나무위키 - 기아 K5 모델 역사 및 정보</a></li>
+                    <li><a href="https://www.law.go.kr/법령/여신전문금융업법" target="_blank" rel="noopener noreferrer">국가법령정보센터 - 여신전문금융업법 (리스 관련 법률)</a></li>
+                    <li><a href="https://www.fss.or.kr/" target="_blank" rel="noopener noreferrer">금융감독원 (리스 상품 관련 소비자 보호 정보 확인)</a></li>
+                    <li><a href="https://www.kofia.or.kr/index.html" target="_blank" rel="noopener noreferrer">금융투자협회 (리스 금융 상품 관련 정보)</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- FAQ Section: Addressing Common Questions -->
+        <section class="content-section">
+            <div class="container">
+                <h2>자주 묻는 질문 (FAQ)</h2>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <h3 id="q1">K5 리스와 K5 장기렌트의 차이점은 무엇인가요?</h3>
+                        <p>K5 리스와 장기렌트는 초기 비용이 적다는 공통점이 있습니다. 하지만 번호판, 보험, 소유권 이전 여부 등에서 차이가 있습니다. 리스는 일반 차량 번호판을 사용하며 개인 보험 요율을 적용받습니다. 장기렌트는 '하, 허, 호' 번호판을 사용하며 렌트사 보험에 가입됩니다. 사업자의 경우 K5 리스는 금융 부채로 잡히지만 장기렌트는 부채로 잡히지 않습니다.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3 id="q2">K5 리스 견적을 받을 때 초기 비용이 발생하나요?</h3>
+                        <p>K5 리스 초기 비용은 보증금과 선납금으로 구성됩니다. 보증금은 만기 시 돌려받는 담보금이며, 선납금은 미리 지불하는 월 리스료입니다. 초기 비용 없이 K5 리스 계약이 가능하지만, 보증금을 납부하면 월 리스료가 절감될 수 있습니다. K5 리스 싼곳을 찾으려면 초기 비용 조건도 꼼꼼히 비교해야 합니다.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3 id="q3">K5 리스 계약 만기 시 선택할 수 있는 옵션에는 어떤 것이 있나요?</h3>
+                        <p>K5 리스 만기 시에는 인수를 하거나 반납을 할 수 있습니다. 인수는 잔존가치를 납부하고 K5를 본인 소유로 만드는 것이고, 반납은 K5 차량을 리스사에 돌려주는 것입니다. 또한 새로운 K5 리스 모델로 재계약하는 옵션도 있습니다. 2026년형 K5 풀체인지를 염두에 둔다면 반납 후 신모델 K5 리스를 추천합니다.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3 id="q4">K5 리스 중도 해지 시 위약금은 얼마나 되나요?</h3>
+                        <p>K5 리스는 금융 상품이기 때문에 중도 해지 시 위약금이 높게 책정될 수 있습니다. 남은 리스료의 30%~40%를 위약금으로 지불해야 하므로, K5 리스 계약 전에 중도 해지 조항을 반드시 확인해야 합니다. K5 리스 싼곳이라고 해서 무조건 좋은 것이 아니며, 계약 조건을 상세히 살펴야 합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
-  </body>
-</html>
+
+    <!-- JavaScript for enhanced user experience (FAQ toggle) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.faq-item h3').forEach(item => {
+                item.addEventListener('click', event => {
+                    const parent = item.parentElement;
+                    // Close other open FAQ items first (accordion functionality)
+                    document.querySelectorAll('.faq-item.active').forEach(openItem => {
+                        if (openItem !== parent) {
+                            openItem.classList.remove('active');
+                        }
+                    });
+                    parent.classList.toggle('active');
+                });
+            });
+        });
+    </script>
+  
